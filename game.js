@@ -43,10 +43,6 @@ class Game {
 	}
 }
 
-
-
-
-
 let game;
 function start() {
 	game = new Game();
