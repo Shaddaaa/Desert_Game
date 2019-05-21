@@ -18,6 +18,19 @@
 	padding-right: 20px;
 }
 
-#resourceCollection {
+#content {
+	display: flex;
+	flex-wrap: wrap;
+	width: 750px;
+}
 
+#resourceCollection {
+	display:flex;
+	flex-wrap: wrap;
+}
+
+#resourceCollection > table {
+	width: 200px;
+	text-align: left;
+ 	white-space: nowrap; 
 }

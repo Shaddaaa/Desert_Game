@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>A Game</title>
@@ -11,13 +11,23 @@
 
 <body onload="start()">
 
-<div id="log"></div>
-<table id="resources"></table>
-<div id="resourceCollection">
-	<button type="button" onclick="game.digSand()">Dig some sand</button>
-	<button type="button" onclick="game.digDirt()">Dig some dirt</button>
-	<!-- more buttons soon tm-->
+<div id="content">
+	<div id="log" style="order:0"></div>
+	<div id="resourceCollection" style="order:1">
+		<table>
+			<tr>
+				<th><button type="button" onclick="game.digSand()">Dig some sand</button></th>
+				<th><button type="button" onclick="game.digDirt()">Dig some dirt</button></th>
+			</tr>			
+			<tr>
+				<th><button type="button" onclick="game.digDirt()">Dig some dirt2</button></th>
+			</tr>
+		</table>
+		<!-- more buttons soon tm-->
+	</div>
+	<table id="resources" style="order:2"></table>
 </div>
+
 
 </body>
 
