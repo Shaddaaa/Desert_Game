@@ -12,7 +12,7 @@ class Game {
 		//if the same message is sent multiple times, append the count instead of adding a new message
 		if(showAmount && log.lastChild != null && log.lastChild.innerHTML.substring(0,message.length)==message) {
 			//get the number behind the last x representing the amount of times this message has been sent in a row
-			let count = log.lastChild.substring(lastMsg.lastIndexOf("x") + 1, log.lastChild.lastIndexOf("<"));
+			let count = log.lastChild.substring(log.lastChild.lastIndexOf("x") + 1, log.lastChild.lastIndexOf("<"));
 			//instead of adding a new message, the amount at the end is adjusted
 			log.lastChild.innerHTML = message + " x" + (parseInt(count)+1) + "<br>";
 		} else {
@@ -35,7 +35,7 @@ class Game {
 	digSand() {
 		this.inventory.add("sand", 1);
 		this.log("You found 1 sand!");
-		callEvent("digSand");
+		//callEvent("digSand");
 	}
 
 	digDirt() {
