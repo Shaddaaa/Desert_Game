@@ -1,0 +1,20 @@
+#log {
+	height:180px;
+	width:500px;
+	border:1px solid black;
+	font:16px/26px Georgia, Garamond, Serif;
+	overflow:auto;
+}
+
+#resources {
+	border:1px solid black;
+	border-top: none;
+	font:16px/26px "Arial Verdana";
+}
+
+.logMsg {
+	border-bottom: 1px solid lightgray;
+}
+
+#resourceCollection {
+}
