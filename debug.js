@@ -1,16 +1,33 @@
 class Debugger {
-	constructor() {
-		game.inventory.add("dirt",5);
-		game.inventory.add("stone",51);
-		game.inventory.add("stone",0);
-		game.inventory.add("stone",1);
-		game.inventory.add("gold",1);
-		game.inventory.add("gold",-1);
-		this.logInventory();
+	//tests if the inventory class is working as it's suposed to
+	testInventory() {
+		let succeeded = true;
+		let inv = game.inventory;
+		inv.add("dirt",50);
+		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 50 : false);
+		inv.remove("dirt",30);
+		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 20 : false);
+		inv.remove("dirt",-1);
+		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 20 : false);
+		inv.add("dirt",10);
+		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 30 : false);
+		inv.add("dirt",-1);
+		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 30 : false);
+		inv.add("stone",-1);
+		succeeded = (succeeded ? inv.getResourceIndex("stone") == null : false);
+		inv.remove("stone",-1);
+		succeeded = (succeeded ? inv.getResourceIndex("stone") == null : false);
+		inv.remove("stone",10);
+		succeeded = (succeeded ? inv.getResourceIndex("stone") == null : false);
+		inv.add("stone",10);
+		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("stone")] == 10 : false);
+		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 30 : false);
+		inv.remove("stone",20);
+		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("stone")] == 10 : false);
+		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 30 : false);
+
+		return succeeded;
 	}
-	logInventory() {
-		for (let i = 0; i < game.inventory.resources.length; i++) {
-			console.log(game.inventory.resources[i] + ": " + game.inventory.resourceAmount[i]);
-		}
-	}
+
+	
 }
