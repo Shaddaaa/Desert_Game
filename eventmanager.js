@@ -7,13 +7,17 @@ class EventManager {
 
 	//invokes all handlers that are subscribed to the event
 	invoke(event) {
+		//add all methods that need to be invoked to this array. This is because handlers might unsubscribe and change the eventsToHandler.length -> making the loop go out of bounds
+		let toInvoke = [];
 		for(let i = 0; i < this.eventsToHandlers.length; i++) {
 			if(event == this.eventsToHandlers[i][0]) {
 				for(let j = 1; j < this.eventsToHandlers[i].length; j++) {
-					this.handlers[this.eventsToHandlers[i][j]]();
+					toInvoke.push(this.handlers[this.eventsToHandlers[i][j]].funct);
 				}
 			}
 		}
+		for(let i = 0; i < toInvoke.length; i++)
+			toInvoke[i]();
 	}
 
 	getEventIndex(event) {
@@ -26,12 +30,12 @@ class EventManager {
 	}
 
 	//adds a handler and specifies on which events it should be called
-	//handler is a function; events is an array of strings
+	//handler is an object containing a function and an id; events is an array of strings
 	addHandler(handler, events) {
 		let handlerIndex = -1;
 		//get the index of the handler if it already exists, otherwise push the new one and set index accordingly
 		for(let i = 0; i < this.handlers.length; i++) {
-			if(handler.toString()==this.handlers[i].toString()) {
+			if(handler.id==this.handlers[i].id) {
 				handlerIndex = i;
 				break;
 			}
@@ -69,7 +73,7 @@ class EventManager {
 		let index;
 		//remove the handler from the handler array
 		for(let i = 0; i < this.handlers.length; i++) {
-			if(this.handlers[i].toString()==handler.toString()) {
+			if(this.handlers[i].id==handler.id) {
 				index = i;
 				this.handlers.splice(index, 1);
 				break;
