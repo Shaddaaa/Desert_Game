@@ -34,7 +34,6 @@ class Game {
 	digSand() {
 		this.inventory.add("sand", 1);
 		this.log("You found 1 sand!");
-		//callEvent("digSand");
 	}
 
 	digDirt() {
@@ -44,6 +43,7 @@ class Game {
 }
 
 let game;
+let eventManager = new EventManager();
 function start() {
 	game = new Game();
 }
