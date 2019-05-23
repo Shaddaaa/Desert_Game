@@ -7,14 +7,15 @@ class Unlock {
 		this.condition = condition;
 		this.id = (condition + unlockFunction + events).hashCode();
 		this.unlockFunction = unlockFunction;
-		eventManager.addHandler(new Handler(this.onEvent.bind(this), this.onEvent.toString()), events);
+		this.handler = this.onEvent.bind(this);
+		eventManager.addHandler(this.handler, events);
 	}
 	onEvent() {
 		if(this.check())
 			this.unlock();
 	}
 	unlock() {
-		eventManager.removeHandler(new Handler(this.onEvent.bind(this), this.onEvent.toString()));
+		eventManager.removeHandler(this.handler);
 		this.unlockFunction();
 	}
 	check() {

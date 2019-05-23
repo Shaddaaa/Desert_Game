@@ -42,9 +42,18 @@ class Game {
 		this.inventory.addResources("sand", 1);
 	}
 
-	digDirt() {
-		this.log("You found 1 dirt!");
-		this.inventory.removeResources("dirt", 1);
+	searchSand() {
+		if(this.inventory.resourceAmount[this.inventory.getResourceIndex("sand")] <= 0) {
+			this.log("You need some sand to search through!");
+			return;
+		}
+		this.inventory.removeResources("sand",1);
+		if(Math.random() > 0.8) {
+			this.log("You found 1 bone!")
+			this.inventory.addResources("bone", 1);
+		} else {
+			this.log("You found nothing!")
+		}
 	}
 }
 

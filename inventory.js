@@ -34,6 +34,7 @@ class Inventory {
 			}
 			this.resourceAmount[index] -= amount;
 			eventManager.invoke("removedResource");
+			game.updateResourceDisplay();
 			return true;
 		}
 		return false;

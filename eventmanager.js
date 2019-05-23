@@ -12,7 +12,7 @@ class EventManager {
 		for(let i = 0; i < this.eventsToHandlers.length; i++) {
 			if(event == this.eventsToHandlers[i][0]) {
 				for(let j = 1; j < this.eventsToHandlers[i].length; j++) {
-					toInvoke.push(this.handlers[this.eventsToHandlers[i][j]].funct);
+					toInvoke.push(this.handlers[this.eventsToHandlers[i][j]]);
 				}
 			}
 		}
@@ -35,7 +35,7 @@ class EventManager {
 		let handlerIndex = -1;
 		//get the index of the handler if it already exists, otherwise push the new one and set index accordingly
 		for(let i = 0; i < this.handlers.length; i++) {
-			if(handler.id==this.handlers[i].id) {
+			if(handler==this.handlers[i]) {
 				handlerIndex = i;
 				break;
 			}
@@ -44,7 +44,6 @@ class EventManager {
 			this.handlers.push(handler);
 			handlerIndex = this.handlers.length-1;
 		}
-
 		//loop through all the required events and add them if they aren't there yet
 		for(let j = 0; j < events.length; j++) {
 			let index = this.getEventIndex(events[j]);
@@ -73,7 +72,7 @@ class EventManager {
 		let index;
 		//remove the handler from the handler array
 		for(let i = 0; i < this.handlers.length; i++) {
-			if(this.handlers[i].id==handler.id) {
+			if(this.handlers[i]==handler) {
 				index = i;
 				this.handlers.splice(index, 1);
 				break;
