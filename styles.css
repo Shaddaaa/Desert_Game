@@ -1,15 +1,24 @@
 #log {
-	height:180px;
-	width:500px;
+	position: absolute;
+	left: 2%;
+	top: 3%;
+	width:26%;
+	height:20%;
 	border:1px solid black;
 	font:16px/26px Georgia, Garamond, Serif;
 	overflow:auto;
 }
 
 #resources {
+	position: absolute;
+	left: 2%;
+	top: 25%;
 	border:1px solid black;
-	border-top: none;
 	font:16px/26px "Arial Verdana";
+}
+
+.tableHeader {
+	font-weight: bold;
 }
 
 .logMsg {
@@ -18,19 +27,37 @@
 	padding-right: 20px;
 }
 
-#content {
-	display: flex;
-	flex-wrap: wrap;
-	width: 750px;
-}
-
 #resourceCollection {
-	display:flex;
-	flex-wrap: wrap;
+	position: absolute;
+	left: 30%;
+	top: 3%;
 }
 
 #resourceCollection > table {
-	width: 200px;
+	width: 100px;
 	text-align: left;
- 	white-space: nowrap; 
+ 	white-space: nowrap;
+}
+
+td {
+	padding-bottom: 13px;
+}
+
+goodbutton {
+	-webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+	color: black;
+    background: #F2F2F2;
+    font-weight: bold;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 15px;
+    padding: 4px;
+}
+
+* {
+	margin: 2px;
 }

@@ -1,10 +1,16 @@
 class Game {
 	constructor() {
+		//if 0 the start will be quick, for normal mode make it 1
+		let quickstart = 1;
 		this.inventory = new Inventory();
 		this.logElement = document.getElementById("log");
 		this.resourceElement = document.getElementById("resources");
-		this.log("You awake. Around you is nothing but desert. There's a hill with a little cavern.", true);
-		this.log("You see some small animals prints. Maybe you can survive out here.", true);
+		setTimeout(function(){ game.log("You awake...", true); game.logElement.style.display = "inherit"; }, 2000*quickstart);
+		setTimeout(function(){ game.log("Around you is nothing but desert. There's a rocky hill with a little cavern next to you.", true); game.logElement.style.display = "inherit"; }, 5000*quickstart);
+		setTimeout(function(){ game.log("You see some small animal prints and a few dry plants. Maybe you can survive out here..?", true); game.logElement.style.display = "inherit"; }, 9000*quickstart);
+		setTimeout(function(){ game.log("Wait... There's something in the sand!", true); document.getElementById("digSand").style.display = "inherit"; }, 13000*quickstart);
+		//this.log("You awake. Around you is nothing but desert. There's a hill with a little cavern.", true);
+		//this.log("You see some small animals prints. Maybe you can survive out here.", true);
 	}
 
 	log(message, story = false) {
@@ -23,22 +29,22 @@ class Game {
 	}
 
 	updateResourceDisplay() {
-		//empty the resource element
-		this.resourceElement.innerHTML = "";
+		//reset the resource element
+		this.resourceElement.innerHTML = "<tr><td class='tableHeader'>Resources:</div></tr>";
 		//loop through the inventory and display all the resources
 		for (let i = 0; i < this.inventory.resources.length; i++) {
-			this.resourceElement.innerHTML += "<tr><th>" + this.inventory.resources[i] + ":</th><th>" + this.inventory.resourceAmount[i] + "</th><tr>"
+			this.resourceElement.innerHTML += "<tr><td>" + this.inventory.resources[i] + ":</td><td>" + this.inventory.resourceAmount[i] + "</td><tr>"
 		}
 	}
 
 	digSand() {
-		this.inventory.add("sand", 1);
 		this.log("You found 1 sand!");
+		this.inventory.addResources("sand", 1);
 	}
 
 	digDirt() {
-		this.inventory.add("dirt", 1);
 		this.log("You found 1 dirt!");
+		this.inventory.removeResources("dirt", 1);
 	}
 }
 

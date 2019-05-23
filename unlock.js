@@ -14,8 +14,8 @@ class Unlock {
 			this.unlock();
 	}
 	unlock() {
-		this.unlockFunction();
 		eventManager.removeHandler(new Handler(this.onEvent.bind(this), this.onEvent.toString()));
+		this.unlockFunction();
 	}
 	check() {
 		return eval(this.condition);
