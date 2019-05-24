@@ -2,6 +2,9 @@ class Inventory {
 	constructor() {
 		this.resources = [];
 		this.resourceAmount = [];
+		this.cavernExploration = 0;
+		this.hunger = 100;
+		this.thirst = 100;
 	}
 	addResources(resource, amount) {
 		if(amount < 0) {

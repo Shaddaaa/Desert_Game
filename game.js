@@ -1,10 +1,11 @@
 class Game {
 	constructor() {
 		//if 0 the start will be quick, for normal mode make it 1
-		let quickstart = 1;
+		let quickstart = 0;
 		this.inventory = new Inventory();
 		this.logElement = document.getElementById("log");
 		this.resourceElement = document.getElementById("resources");
+		this.locationElement = document.getElementById("locations");
 		setTimeout(function(){ game.log("You awake...", true); game.logElement.style.display = "inherit"; }, 2000*quickstart);
 		setTimeout(function(){ game.log("Around you is nothing but desert. There's a rocky hill with a little cavern next to you.", true); game.logElement.style.display = "inherit"; }, 5000*quickstart);
 		setTimeout(function(){ game.log("You see some small animal prints and a few dry plants. Maybe you can survive out here..?", true); game.logElement.style.display = "inherit"; }, 9000*quickstart);
@@ -37,23 +38,38 @@ class Game {
 		}
 	}
 
+	updateLocationDisplay() {
+		//reset the resource element
+		this.locationElement.innerHTML = "<tr><td class='tableHeader'>Exploration:</div></tr>";
+		if(this.inventory.cavernExploration > 0)
+			this.locationElement.innerHTML += "<tr><td> Cavern: </td><td>" + this.inventory.cavernExploration + "</td><tr>"
+	}
+
 	digSand() {
+		makeUnclickable(document.getElementById("digSand"), 500);
 		this.log("You found 1 sand!");
 		this.inventory.addResources("sand", 1);
 	}
 
 	searchSand() {
+		makeUnclickable(document.getElementById("searchSand"), 500);
 		if(this.inventory.resourceAmount[this.inventory.getResourceIndex("sand")] <= 0) {
 			this.log("You need some sand to search through!");
 			return;
 		}
 		this.inventory.removeResources("sand",1);
-		if(Math.random() > 0.8) {
-			this.log("You found 1 bone!")
-			this.inventory.addResources("bone", 1);
-		} else {
-			this.log("You found nothing!")
+		searchSandLT.addLoot();
+	}
+
+	exploreCavern() {
+		if(this.inventory.resourceAmount[this.inventory.getResourceIndex("sand")] <= 1) {
+			this.log("You need some sand to lay a track to find back");
+			return;
 		}
+		this.inventory.removeResources("sand",2	);
+		makeUnclickable(document.getElementById("exploreCavern"), 5000);
+		this.inventory.cavernExploration++;
+		this.updateLocationDisplay();
 	}
 }
 

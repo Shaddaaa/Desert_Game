@@ -7,26 +7,39 @@
   <script src="utility.js"></script>
   <script src="eventmanager.js"></script>
   <script src="inventory.js"></script>
+  <script src="lootTable.js"></script>
+  <script src="allLootTables.js"></script>
   <script src="game.js"></script>
   <script src="unlock.js"></script>
   <script src="debug.js"></script>
   <script src="allUnlocks.js"></script>
+
 </head>
 
 <body onload="start()">
 	<table id="resources"></table>
+	<table id="locations"></table>
 
 	<div id="log" style="display: none"></div>
 
 	<div id="resourceCollection">
-	<table>
-		<tr>
-			<td><goodbutton id="digSand" onclick="game.digSand()" style="display: none">Dig some sand</goodbutton></td>
-			<td><goodbutton id="searchSand" onclick="game.searchSand()" style="display: none">Search for bones</goodbutton></td>
-		</tr>			
-		<tr>
-		</tr>
-	</table>
+		<table>
+			<tr>
+				<td><goodbutton id="digSand" onclick="game.digSand()" style="display: none">Dig some sand</goodbutton></td>
+				<td><goodbutton id="searchSand" onclick="game.searchSand()" style="display: none">Search through sand</goodbutton></td>
+			</tr>			
+			<tr>
+			</tr>
+		</table>
+	</div>
+
+	<div id="exploration">
+		<table>
+			<tr>
+				<td><goodbutton id="exploreCavern" onclick="game.exploreCavern()" style="display: none">Explore the cavern</goodbutton></td>
+			</tr>
+		</table>
+	</div>
 </body>
 
 </html> 
