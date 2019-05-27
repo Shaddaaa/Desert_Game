@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="utility.js"></script>
   <script src="eventmanager.js"></script>
-  <script src="inventory.js"></script>
+  <script src="save.js"></script>
   <script src="lootTable.js"></script>
   <script src="allLootTables.js"></script>
   <script src="game.js"></script>
@@ -17,9 +17,9 @@
 </head>
 
 <body onload="start()">
-	<table id="resources"></table>
-	<table id="locations"></table>
-
+	<table id="resources" style="display: none"></table>
+	<table id="locations" style="display: none"></table>
+	<table id="buildings" style="display: none"></table>
 	<div id="log" style="display: none"></div>
 
 	<div id="resourceCollection">
@@ -39,6 +39,11 @@
 				<td><goodbutton id="exploreCavern" onclick="game.exploreCavern()" style="display: none">Explore the cavern</goodbutton></td>
 			</tr>
 		</table>
+	</div>
+
+	<div id="options">
+		<button type="button" onclick="saveAll()">Save</button>
+		<button type="button" onclick="localStorage.setItem('save', '');  location.reload();">Reset</button>
 	</div>
 </body>
 

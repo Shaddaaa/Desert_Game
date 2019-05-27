@@ -16,8 +16,9 @@ class EventManager {
 				}
 			}
 		}
-		for(let i = 0; i < toInvoke.length; i++)
+		for(let i = 0; i < toInvoke.length; i++) {
 			toInvoke[i]();
+		}
 	}
 
 	getEventIndex(event) {
@@ -81,15 +82,31 @@ class EventManager {
 		//remove all indices referring to the handler handler from the eventsToHandlers array
 		if(index!=null) {
 			for(let i = 0; i < this.eventsToHandlers.length; i++) {
+				//j index of handler to be removed
+				let toRemove;
+				//j indices of handlers to be shifted one down
+				let toMove = [];
+				//find toRemove and toMoves
 				for(let j = 1; j < this.eventsToHandlers[i].length; j++) {
 					if(this.eventsToHandlers[i][j]==index) {
-						this.eventsToHandlers[i].splice(j,1);
+						toRemove = j;
 					}
 					if(this.eventsToHandlers[i][j]>index) {
-						this.eventsToHandlers[i][j]--;
+						//needs to be j-1 when the handler get's removed from this event, because everything in the array shifts one down after removal
+						toMove.push(toRemove==null ? j : j-1);
 					}
 				}
-				//remove the event if there are no handlers to be called
+				//if we have to remove the handler
+				if(toRemove != null) {
+					this.eventsToHandlers[i].splice(toRemove,1);
+				}
+				//shift other handlers which were above the removed handler one down
+				for(let h = 0; h < toMove.length; h++) {
+					this.eventsToHandlers[i][toMove[h]]--;
+				}
+			}
+			//remove the events if there are no handlers to be called
+			for(let i = 0; i < this.eventsToHandlers.length; i++) {
 				if(this.eventsToHandlers[i].length<=1)
 					this.eventsToHandlers.splice(i,1);
 			}

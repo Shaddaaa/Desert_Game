@@ -22,7 +22,7 @@ class LootTable {
 	addLoot() {
 		for(let i = 0; i < this.resources.length; i++) {
 			if(Math.random() < this.chances[i]) {
-				game.inventory.addResources(this.resources[i], getRandomInt(this.amounts[i]-1)+1);
+				game.addResources(this.resources[i], getRandomInt(this.amounts[i]-1)+1);
 			}
 		}
 	}

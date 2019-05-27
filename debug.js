@@ -1,33 +1,31 @@
 class Debugger {
-	//tests if the inventory class is working as it's suposed to
+	//tests if the inventory part of the save class is working as it's suposed to
 	testInventory() {
 		let succeeded = true;
-		let inv = game.inventory;
-		inv.add("dirt",50);
-		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 50 : false);
-		inv.remove("dirt",30);
-		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 20 : false);
-		inv.remove("dirt",-1);
-		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 20 : false);
-		inv.add("dirt",10);
-		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 30 : false);
-		inv.add("dirt",-1);
-		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 30 : false);
-		inv.add("stone",-1);
+		let inv = game.save;
+		game.addResources("dirt",50);
+		succeeded = (succeeded ? inv.resourceAmount[game.getResourceIndex("dirt")] == 50 : false);
+		game.removeResources("dirt",30);
+		succeeded = (succeeded ? inv.resourceAmount[game.getResourceIndex("dirt")] == 20 : false);
+		game.removeResources("dirt",-1);
+		succeeded = (succeeded ? inv.resourceAmount[game.getResourceIndex("dirt")] == 20 : false);
+		game.addResources("dirt",10);
+		succeeded = (succeeded ? inv.resourceAmount[game.getResourceIndex("dirt")] == 30 : false);
+		game.addResources("dirt",-1);
+		succeeded = (succeeded ? inv.resourceAmount[game.getResourceIndex("dirt")] == 30 : false);
+		game.addResources("stone",-1);
 		succeeded = (succeeded ? inv.getResourceIndex("stone") == null : false);
-		inv.remove("stone",-1);
+		game.removeResources("stone",-1);
 		succeeded = (succeeded ? inv.getResourceIndex("stone") == null : false);
-		inv.remove("stone",10);
+		game.removeResources("stone",10);
 		succeeded = (succeeded ? inv.getResourceIndex("stone") == null : false);
-		inv.add("stone",10);
-		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("stone")] == 10 : false);
-		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 30 : false);
-		inv.remove("stone",20);
-		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("stone")] == 10 : false);
-		succeeded = (succeeded ? inv.resourceAmount[inv.getResourceIndex("dirt")] == 30 : false);
+		game.addResources("stone",10);
+		succeeded = (succeeded ? inv.resourceAmount[getResourceIndex("stone")] == 10 : false);
+		succeeded = (succeeded ? inv.resourceAmount[getResourceIndex("dirt")] == 30 : false);
+		game.removeResources("stone",20);
+		succeeded = (succeeded ? inv.resourceAmount[getResourceIndex("stone")] == 10 : false);
+		succeeded = (succeeded ? inv.resourceAmount[getResourceIndex("dirt")] == 30 : false);
 
 		return succeeded;
 	}
-
-	
 }

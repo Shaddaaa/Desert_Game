@@ -1,17 +1,10 @@
 class Game {
 	constructor() {
-		//if 0 the start will be quick, for normal mode make it 1
-		let quickstart = 0;
-		this.inventory = new Inventory();
+		this.save = new Save();
 		this.logElement = document.getElementById("log");
 		this.resourceElement = document.getElementById("resources");
 		this.locationElement = document.getElementById("locations");
-		setTimeout(function(){ game.log("You awake...", true); game.logElement.style.display = "inherit"; }, 2000*quickstart);
-		setTimeout(function(){ game.log("Around you is nothing but desert. There's a rocky hill with a little cavern next to you.", true); game.logElement.style.display = "inherit"; }, 5000*quickstart);
-		setTimeout(function(){ game.log("You see some small animal prints and a few dry plants. Maybe you can survive out here..?", true); game.logElement.style.display = "inherit"; }, 9000*quickstart);
-		setTimeout(function(){ game.log("Wait... There's something in the sand!", true); document.getElementById("digSand").style.display = "inherit"; }, 13000*quickstart);
-		//this.log("You awake. Around you is nothing but desert. There's a hill with a little cavern.", true);
-		//this.log("You see some small animals prints. Maybe you can survive out here.", true);
+		this.buildingElement = document.getElementById("buildings");
 	}
 
 	log(message, story = false) {
@@ -30,51 +23,120 @@ class Game {
 	}
 
 	updateResourceDisplay() {
+		if(this.save.resources.length==0)
+			return;
 		//reset the resource element
 		this.resourceElement.innerHTML = "<tr><td class='tableHeader'>Resources:</div></tr>";
-		//loop through the inventory and display all the resources
-		for (let i = 0; i < this.inventory.resources.length; i++) {
-			this.resourceElement.innerHTML += "<tr><td>" + this.inventory.resources[i] + ":</td><td>" + this.inventory.resourceAmount[i] + "</td><tr>"
+		//loop through the save and display all the resources
+		for (let i = 0; i < this.save.resources.length; i++) {
+			this.resourceElement.innerHTML += "<tr><td>" + this.save.resources[i] + ":</td><td>" + this.save.resourceAmount[i] + "</td><tr>"
 		}
 	}
 
 	updateLocationDisplay() {
+		if(this.save.cavernExploration <= 0)
+			return;
+		
 		//reset the resource element
 		this.locationElement.innerHTML = "<tr><td class='tableHeader'>Exploration:</div></tr>";
-		if(this.inventory.cavernExploration > 0)
-			this.locationElement.innerHTML += "<tr><td> Cavern: </td><td>" + this.inventory.cavernExploration + "</td><tr>"
+		if(this.save.cavernExploration > 0)
+			this.locationElement.innerHTML += "<tr><td> Cavern: </td><td>" + this.save.cavernExploration + "</td><tr>"
 	}
 
+	addResources(resource, amount) {
+		if(amount < 0) {
+			this.log("This is an error, please report it to the developer. Code:addnegativ");
+			return;
+		}
+		for(let i = 0; i < this.save.resources.length; i++) {
+			if(this.save.resources[i] == resource) {
+				this.save.resourceAmount[i] += amount;
+				eventManager.invoke("addedResource");
+				this.updateResourceDisplay();
+				return;
+			}
+		}
+		this.save.resources.push(resource);
+		this.save.resourceAmount.push(amount);
+		eventManager.invoke("addedResource");
+		this.updateResourceDisplay();
+	}
+	
+	removeResources(resource, amount) {
+		if(amount < 0) {
+			this.log("This is an error, please report it to the developer. Code:removenegativ");
+			return false;
+		}
+		let index = this.getResourceIndex(resource);
+		if(index!=null) {
+			if(amount > this.save.resourceAmount[index]) {
+				this.log("Can't afford that yet!");
+				return false;
+			}
+			this.save.resourceAmount[index] -= amount;
+			eventManager.invoke("removedResource");
+			this.updateResourceDisplay();
+			return true;
+		}
+		return false;
+	}
+	
+	getResourceIndex(resource) {
+		for(let i = 0; i < this.save.resources.length; i++) {
+			if(this.save.resources[i] == resource) {
+				return i;
+			}
+		}
+		return null;
+	}
 	digSand() {
 		makeUnclickable(document.getElementById("digSand"), 500);
-		this.log("You found 1 sand!");
-		this.inventory.addResources("sand", 1);
+		this.addResources("sand", 1);
 	}
 
 	searchSand() {
 		makeUnclickable(document.getElementById("searchSand"), 500);
-		if(this.inventory.resourceAmount[this.inventory.getResourceIndex("sand")] <= 0) {
+		if(this.save.resourceAmount[this.getResourceIndex("sand")] <= 0) {
 			this.log("You need some sand to search through!");
 			return;
 		}
-		this.inventory.removeResources("sand",1);
+		this.removeResources("sand",1);
 		searchSandLT.addLoot();
 	}
 
 	exploreCavern() {
-		if(this.inventory.resourceAmount[this.inventory.getResourceIndex("sand")] <= 1) {
-			this.log("You need some sand to lay a track to find back");
-			return;
-		}
-		this.inventory.removeResources("sand",2	);
 		makeUnclickable(document.getElementById("exploreCavern"), 5000);
-		this.inventory.cavernExploration++;
+		this.save.cavernExploration++;
+		eventManager.invoke("exploredCavern");
 		this.updateLocationDisplay();
 	}
 }
 
 let game;
 let eventManager = new EventManager();
+
 function start() {
 	game = new Game();
+	loadSave();
+}
+
+function saveAll() {
+	localStorage.setItem("save", JSON.stringify(game.save));
+}
+
+function loadSave() {
+	if(localStorage.getItem("save") != null && localStorage.getItem("save") != "")
+		game.save = JSON.parse(localStorage.getItem("save"));
+	
+	//add unlocks as needed
+	for(let i = 0; i < unlocks.length; i++) {
+		if(!game.save.unlockedIDs[unlocks[i].id])
+			unlocks[i].enable();
+		else
+			unlocks[i].unlockOnLoad();
+	}
+	eventManager.invoke("gameStart");
+	setInterval(saveAll, 20000);
+	game.updateResourceDisplay();
+	game.updateLocationDisplay();
 }
