@@ -4,7 +4,7 @@ new Unlock(
 	"true",
 	function() {
 		//if 0 the start will be quick, for normal mode make it 1
-		let quickstart = 0;
+		let quickstart = 1;
 		setTimeout(function(){ 
 			game.log("You awake...", true); 
 			game.logElement.style.display = "inherit"; 
